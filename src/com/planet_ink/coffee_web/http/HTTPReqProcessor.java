@@ -24,7 +24,6 @@ import com.planet_ink.coffee_web.interfaces.SimpleServletSession;
 import com.planet_ink.coffee_web.util.ChunkSpec;
 import com.planet_ink.coffee_web.util.CWDataBuffers;
 import com.planet_ink.coffee_web.util.CWConfig;
-import com.planet_ink.coffee_web.util.CWConfig.DisableFlag;
 import com.planet_ink.coffee_web.util.RequestStats;
 import com.planet_ink.coffee_common.collections.Pair;
 
@@ -473,7 +472,7 @@ public class HTTPReqProcessor implements HTTPFileGetter
 	 */
 	private void checkIfModifiedSince(HTTPRequest request, final DataBuffers buffers) throws HTTPException
 	{
-		if(config.isDisabled(DisableFlag.STATUS304))
+		if(config.isDisabled(CWConfig.DisableFlag.STATUS304))
 			return;
 		final String lastModifiedSince=request.getHeader(HTTPHeader.Common.IF_MODIFIED_SINCE.lowerCaseName()); 
 		if(lastModifiedSince != null)
@@ -726,7 +725,7 @@ public class HTTPReqProcessor implements HTTPFileGetter
 					final long[] fullRange = setRangeRequests(request, buffers);
 					if(fullRange != null)
 					{
-					if(config.isDisabled(MiniWebConfig.DisableFlag.RANGED200))
+					if(config.isDisabled(CWConfig.DisableFlag.RANGED200))
 						responseStatus = HTTPStatus.S200_OK;
 					else
 						responseStatus = HTTPStatus.S206_PARTIAL_CONTENT;

@@ -22,7 +22,6 @@ import com.planet_ink.coffee_web.interfaces.FileCacheManager;
 import com.planet_ink.coffee_web.interfaces.FileManager;
 import com.planet_ink.coffee_web.util.CWDataBuffers;
 import com.planet_ink.coffee_web.util.CWConfig;
-import com.planet_ink.coffee_web.util.CWConfig.DisableFlag;
 
 /*
 Copyright 2012-2017 Bo Zimmerman
@@ -75,7 +74,7 @@ public class FileCache implements FileCacheManager
 		this.cacheExpireMs=config.getFileCacheExpireMs();
 		this.cacheMaxFileBytes=config.getFileCacheMaxFileBytes();
 		this.compressionMaxFileBytes=config.getFileCompMaxFileBytes();
-		this.status304Disabled=config.isDisabled(DisableFlag.STATUS304);
+		this.status304Disabled=config.isDisabled(CWConfig.DisableFlag.STATUS304);
 		this.cacheActive=(cacheMaxBytes > 0) || (compressionMaxFileBytes>0);
 		this.logger=config.getLogger();
 		this.fileManager=fileManager;
