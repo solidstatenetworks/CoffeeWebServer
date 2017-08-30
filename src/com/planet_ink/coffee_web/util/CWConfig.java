@@ -149,7 +149,7 @@ public class CWConfig implements Cloneable
 	
 	public enum DupPolicy { ENUMERATE, OVERWRITE }
 	
-	public enum DisableFlag { RANGED }
+	public enum DisableFlag { RANGED, RANGED200, STATUS304 }
 	
 	private DupPolicy dupPolicy = DupPolicy.OVERWRITE;
 	

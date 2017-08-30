@@ -22,6 +22,7 @@ import com.planet_ink.coffee_web.interfaces.FileCacheManager;
 import com.planet_ink.coffee_web.interfaces.FileManager;
 import com.planet_ink.coffee_web.util.CWDataBuffers;
 import com.planet_ink.coffee_web.util.CWConfig;
+import com.planet_ink.coffee_web.util.CWConfig.DisableFlag;
 
 /*
 Copyright 2012-2017 Bo Zimmerman
@@ -61,6 +62,7 @@ public class FileCache implements FileCacheManager
 	private final long						  compressionMaxFileBytes; // maximum size of file in bytes that will be compressed
 	private final Logger					  logger;
 	private final FileManager				  fileManager;
+	private final boolean					  status304Disabled;
 
 
 	/**
@@ -73,6 +75,7 @@ public class FileCache implements FileCacheManager
 		this.cacheExpireMs=config.getFileCacheExpireMs();
 		this.cacheMaxFileBytes=config.getFileCacheMaxFileBytes();
 		this.compressionMaxFileBytes=config.getFileCompMaxFileBytes();
+		this.status304Disabled=config.isDisabled(DisableFlag.STATUS304);
 		this.cacheActive=(cacheMaxBytes > 0) || (compressionMaxFileBytes>0);
 		this.logger=config.getLogger();
 		this.fileManager=fileManager;
@@ -99,7 +102,7 @@ public class FileCache implements FileCacheManager
 	 */
 	private void checkAndSetETag(final FileCacheEntry entry, final String[] eTag) throws HTTPException
 	{
-		if((eTag!=null) && (eTag.length>0))
+		if((eTag!=null) && (eTag.length>0) && (!status304Disabled))
 		{
 			if((entry.eTag.equals(eTag[0])))
 				throw HTTPException.standardException(HTTPStatus.S304_NOT_MODIFIED);
